@@ -23,7 +23,7 @@ public class CharacterisDTOConverter {
 
     }
 
-    public Characteristic convertCharacterisAid(CharacterisDTO characterisDTO) {
+    public Characteristic convertCharacteris(CharacterisDTO characterisDTO) {
         
         Characteristic characterisAid = dbm.map(characterisDTO, Characteristic.class);
         return characterisAid;

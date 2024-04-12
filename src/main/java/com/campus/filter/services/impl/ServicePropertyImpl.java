@@ -7,17 +7,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.campus.filter.config.CharacterisDTOConverter;
 import com.campus.filter.config.PropertyDTOConverter;
+import com.campus.filter.config.StayDTOConverter;
+import com.campus.filter.dto.CharacterisDTO;
 import com.campus.filter.dto.PropertyDTO;
+import com.campus.filter.dto.StayDTO;
 import com.campus.filter.exception.BussinesRuleException;
+import com.campus.filter.repositories.RepositoryCharacteristic;
 import com.campus.filter.repositories.RepositoryOffice;
 import com.campus.filter.repositories.RepositoryProperty;
+import com.campus.filter.repositories.RepositoryStay;
 import com.campus.filter.repositories.RepositoryUser;
+import com.campus.filter.repositories.RepositoryZone;
+import com.campus.filter.repositories.entities.Characteristic;
 import com.campus.filter.repositories.entities.Office;
 import com.campus.filter.repositories.entities.Property;
 import com.campus.filter.repositories.entities.PropertyType;
 import com.campus.filter.repositories.entities.StateType;
+import com.campus.filter.repositories.entities.Stay;
 import com.campus.filter.repositories.entities.UserE;
+import com.campus.filter.repositories.entities.Zone;
 import com.campus.filter.services.ServiceProperty;
 
 import lombok.AllArgsConstructor;
@@ -29,8 +39,13 @@ public class ServicePropertyImpl implements ServiceProperty{
     private RepositoryProperty repositoryProperty;
     private RepositoryUser repositoryUser;
     private RepositoryOffice repositoryOffice;
+    private RepositoryCharacteristic repositoryCharacteristic;
+    private RepositoryStay repositoryStay;
+    private RepositoryZone repositoryZone;
 
     private PropertyDTOConverter convert;
+    private CharacterisDTOConverter convertChar;
+    private StayDTOConverter convertStay;
 
     @Override
     @Transactional(readOnly = true)
@@ -94,11 +109,30 @@ public class ServicePropertyImpl implements ServiceProperty{
     public PropertyDTO save(PropertyDTO property) {
         Optional<UserE> userOptional = repositoryUser.findById(property.getOwner_id());
         Optional<Office> officeOptional = repositoryOffice.findById(property.getOffice_id());
+        Optional<Zone> zoneOptional = repositoryZone.findById(property.getZone_id());
         
         if(userOptional.isPresent() && officeOptional.isPresent()) {
             Property propertyEntity = convert.convertProperty(property);
             propertyEntity.setOwner(userOptional.get());
             propertyEntity.setOffice(officeOptional.get());
+            propertyEntity.setAddress(property.getAddress());
+            propertyEntity.setType(PropertyType.fromValue(property.getType_id()));
+            propertyEntity.setState(StateType.fromValue(property.getState_id()));
+            propertyEntity.setArea(property.getArea());
+            propertyEntity.setKeys_available(property.getKeys_available());
+            propertyEntity.setPrice(property.getPrice());
+            propertyEntity.setZone(zoneOptional.get());
+            repositoryProperty.save(propertyEntity);
+            for (CharacterisDTO charas : property.getChars()) {
+                Characteristic characEntity = convertChar.convertCharacteris(charas);
+                characEntity.setProperty(propertyEntity);
+                repositoryCharacteristic.save(characEntity);
+            }
+            for (StayDTO stay : property.getStays()) {
+                Stay stayEntity = convertStay.convertStay(stay);
+                stayEntity.setProperty(propertyEntity);
+                repositoryStay.save(stayEntity);
+            }
             return convert.convertPropertyDTO(propertyEntity);
         }
         return null;

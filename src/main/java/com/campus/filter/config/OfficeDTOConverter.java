@@ -18,7 +18,12 @@ public class OfficeDTOConverter {
 
         OfficeDTO officeDTO = dbm.map(office, OfficeDTO.class);
         officeDTO.setAddress(office.getAddress());
-        officeDTO.setZone_name(office.getZone().getName());
+        if(office.getZone().getName() == null){
+            officeDTO.setZone_name("Zone");
+        }else{
+            officeDTO.setZone_name(office.getZone().getName());
+        }
+        
         return officeDTO;
     }
 

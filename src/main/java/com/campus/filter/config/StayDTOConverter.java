@@ -21,7 +21,7 @@ public class StayDTOConverter {
         return stayDTO;
     }
 
-    public Stay convertStayAid(StayDTO stayDTO) {
+    public Stay convertStay(StayDTO stayDTO) {
         Stay stayAid = dbm.map(stayDTO, Stay.class);
         return stayAid;
     }

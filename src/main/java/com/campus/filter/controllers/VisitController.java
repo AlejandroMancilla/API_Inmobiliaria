@@ -77,7 +77,7 @@ public class VisitController {
     @Operation(summary = "Create a new Visit")
     @PostMapping("/")
     @JsonView(VisitController.class)
-    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody VisitDTO visit, BindingResult result){
+    public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody VisitDTO visit, BindingResult result) throws BussinesRuleException{
         VisitDTO visitNew = null;
 
         Map<String, Object> response = new HashMap<>();

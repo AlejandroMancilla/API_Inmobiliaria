@@ -65,7 +65,7 @@ public class ServiceVisitImpl implements ServiceVisit {
         List<Visit> visits = (List<Visit>) repositoryVisit.findByVisitorId(id);
         
         if(visits.isEmpty()) {
-            BussinesRuleException exception = new BussinesRuleException("1007","Error! Doesn't exist Visits to the Property: " + id, HttpStatus.PRECONDITION_FAILED);
+            BussinesRuleException exception = new BussinesRuleException("1007","Error! Doesn't exist Visits by the Client: " + id, HttpStatus.PRECONDITION_FAILED);
             throw exception;
         }
         return visits.stream()
@@ -74,7 +74,7 @@ public class ServiceVisitImpl implements ServiceVisit {
     }
 
     @Override
-    public VisitDTO save(VisitDTO visit) {
+    public VisitDTO save(VisitDTO visit) throws BussinesRuleException {
         Optional<UserE> userOptional = repositoryUser.findById(visit.getVisitor_id());
         Optional<Property> propertyOptional = repositoryProperty.findById(visit.getProperty_id());
 
@@ -82,11 +82,16 @@ public class ServiceVisitImpl implements ServiceVisit {
             Visit visitEntity = convert.convertVisit(visit);
             visitEntity.setVisitor(userOptional.get());
             visitEntity.setProperty(propertyOptional.get());
+            visitEntity.setComment(visit.getComment());
+            visitEntity.setVisitAt(visit.getDate());;
+            repositoryVisit.save(visitEntity);
             return convert.convertVisitDTO(visitEntity);
+        }else{
+            BussinesRuleException exception = new BussinesRuleException("1007","Error! Visitor or Property don't Exist", HttpStatus.PRECONDITION_FAILED);
+            throw exception;
         }
-        return null;
         
-        
+               
     }
 
     @Override
@@ -99,6 +104,8 @@ public class ServiceVisitImpl implements ServiceVisit {
             Visit visitCurrent = visitCurrentOptional.get();
             visitCurrent.setVisitor(userOptional.get());
             visitCurrent.setProperty(propertyOptional.get());
+            visitCurrent.setVisitAt(visit.getDate());
+            visitCurrent.setComment(visit.getComment());
             repositoryVisit.save(visitCurrent);
             return convert.convertVisitDTO(visitCurrent);
         }

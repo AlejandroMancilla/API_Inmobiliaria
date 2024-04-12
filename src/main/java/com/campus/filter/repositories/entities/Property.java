@@ -21,6 +21,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,25 +42,22 @@ public class Property implements Serializable {
     @Column(nullable = false)
     private String address;
 
-    @NotEmpty(message = "Area Can't be Empty")
+    @DecimalMin(value="0.0")
     @Column(nullable = false)
     private Float area;
 
-    @NotEmpty(message = "Price Can't be Empty")
+    @DecimalMin(value="0.0")
     @Column(nullable = false)
     private Float price;
 
-    @NotEmpty(message = "Property Type Can't be Empty")
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Enumerated(EnumType.ORDINAL)
     private PropertyType type;
 
-    @NotEmpty(message = "Keys Availability Cant' be Empty")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Boolean keys_available;
 
-    @NotEmpty(message = "Property State Can't be Empty")
-    @Column(nullable = false)
+    @Column(nullable = true)
     @Enumerated(EnumType.ORDINAL)
     private StateType state;
 

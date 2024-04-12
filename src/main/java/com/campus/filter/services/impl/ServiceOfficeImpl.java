@@ -63,6 +63,7 @@ public class ServiceOfficeImpl implements ServiceOffice{
         if(zoneOptional.isPresent()) {
             Office officeEntity = convert.convertOffice(office);
             officeEntity.setZone(zoneOptional.get());
+            repositoryOffice.save(officeEntity);
             return convert.convertOfficeDTO(officeEntity);
         }
         return null;
@@ -76,6 +77,7 @@ public class ServiceOfficeImpl implements ServiceOffice{
         if(zoneOptional.isPresent() && officeCurrentOptional.isPresent()) {
             Office officeEntity = convert.convertOffice(office);
             officeEntity.setZone(zoneOptional.get());
+            repositoryOffice.save(officeEntity);
             return convert.convertOfficeDTO(officeEntity);
         }
         return null;
