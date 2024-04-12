@@ -1,5 +1,6 @@
 package com.campus.filter.repositories.entities;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Visit {
+public class Visit implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

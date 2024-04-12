@@ -11,4 +11,5 @@ public interface RepositoryVisit extends CrudRepository<Visit, Long> {
     List<Visit> findByPropertyId(Long id);
 
     List<Visit> findByVisitorId(Long id);
+    
 }

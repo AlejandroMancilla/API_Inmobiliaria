@@ -38,9 +38,10 @@ public class VisitController {
     
     @Operation(summary = "Get a List with Visits information")
     @GetMapping("/")
+    @JsonView(VisitController.class)
     public ResponseEntity<List<VisitDTO>> findAll() {
-        List<VisitDTO> properties = serviceVisit.findAll();
-        return new ResponseEntity<>(properties, HttpStatus.OK);
+        List<VisitDTO> visits= serviceVisit.findAll();
+        return new ResponseEntity<>(visits, HttpStatus.OK);
     }
 
     @Operation(summary = "Get a Visit by its ID")
@@ -75,6 +76,7 @@ public class VisitController {
 
     @Operation(summary = "Create a new Visit")
     @PostMapping("/")
+    @JsonView(VisitController.class)
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody VisitDTO visit, BindingResult result){
         VisitDTO visitNew = null;
 
@@ -103,6 +105,7 @@ public class VisitController {
 
     @Operation(summary = "Update the Visit information by its ID")
     @PutMapping("/{id}")
+    @JsonView(VisitController.class)
     public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody VisitDTO visit, BindingResult result,
             @PathVariable Long id) {
 

@@ -26,6 +26,6 @@ public class VisitDTO {
     private Date date;
 
     @JsonView(VisitController.class)
-    private String Comment;
+    private String comment;
 
 }

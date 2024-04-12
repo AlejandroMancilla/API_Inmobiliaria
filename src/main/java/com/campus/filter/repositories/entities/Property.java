@@ -1,5 +1,6 @@
 package com.campus.filter.repositories.entities;
 
+import java.io.Serializable;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Property {
+public class Property implements Serializable {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

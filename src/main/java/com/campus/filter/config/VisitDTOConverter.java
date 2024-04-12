@@ -20,8 +20,8 @@ public class VisitDTOConverter {
         visitDTO.setProperty_address(visit.getProperty().getAddress());
         visitDTO.setVisitor_fullname(visit.getVisitor().getName() + " " + visit.getVisitor().getLastname());
         visitDTO.setDate(visit.getVisitAt());
-        visit.setComment(visit.getComment());
-        return null;
+        visitDTO.setComment(visit.getComment());
+        return visitDTO;
     }
 
     public Visit convertVisit(VisitDTO visitDTO) {

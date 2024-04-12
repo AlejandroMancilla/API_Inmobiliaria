@@ -88,6 +88,7 @@ public class PropertyController {
 
     @Operation(summary = "Create a new Property")
     @PostMapping("/")
+    @JsonView(PropertyController.class)
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody PropertyDTO property, BindingResult result){
         PropertyDTO propertyNew = null;
 

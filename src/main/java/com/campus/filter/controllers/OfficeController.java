@@ -66,6 +66,7 @@ public class OfficeController {
 
     @Operation(summary = "Create a new Office")
     @PostMapping("/")
+    @JsonView(OfficeController.class)
     public ResponseEntity<Map<String, Object>> save(@Valid @RequestBody OfficeDTO office, BindingResult result){
         OfficeDTO officeNew = null;
 
@@ -94,6 +95,7 @@ public class OfficeController {
 
     @Operation(summary = "Update the Office information by its ID")
     @PutMapping("/{id}")
+    @JsonView(OfficeController.class)
     public ResponseEntity<Map<String, Object>> update(@Valid @RequestBody OfficeDTO office, BindingResult result,
             @PathVariable Long id) {
 

@@ -15,9 +15,9 @@ public interface ServiceVisit {
 
     List<VisitDTO> findByVisitorId(Long id) throws BussinesRuleException;
 
-    VisitDTO save(VisitDTO property);
+    VisitDTO save(VisitDTO visit);
 
-    VisitDTO update(Long id, VisitDTO property);
+    VisitDTO update(Long id, VisitDTO visit);
 
     void delete(Long id);
 
